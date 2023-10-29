@@ -48,6 +48,19 @@ pub fn generate_html(ast: &[AstNode]) -> String {
                 result.push_str(&generate_html(nodes));
                 result.push_str("</p>");
             }
+
+            AstNode::NoteReference(ref_name) => {
+                result.push_str(&format!(
+                    "<sup id='ref-{0}'><a href='#note-{0}'>[{0}]</a></sup>",
+                    ref_name
+                ));
+            }
+            AstNode::NoteDefinition(ref_name, note_content) => {
+                result.push_str(&format!(
+                    "<p id='note-{0}'><sup>{0}</sup>: {1} <a href='#ref-{0}'>&#8617;</a></p>",
+                    ref_name, note_content
+                ));
+            }
         }
         // リストの終了タグはリスト全体の生成が終わった後に追加する
         if is_in_list {

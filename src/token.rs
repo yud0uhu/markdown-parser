@@ -7,6 +7,8 @@ pub enum Token {
     Text(String),
     BlockQuotes(String),
     Lists(String),
+    NoteReference(String),
+    NoteDefinition(String, String),
 }
 
 #[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug)]

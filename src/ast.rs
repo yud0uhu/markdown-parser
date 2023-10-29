@@ -8,5 +8,7 @@ pub enum AstNode {
     Text(String),
     BlockQuotes(String),
     Lists(String),
+    NoteReference(String),
+    NoteDefinition(String, String),
     Paragraph(Vec<AstNode>),
 }

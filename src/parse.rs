@@ -12,6 +12,23 @@ pub fn parse(tokens: &[Token]) -> Vec<AstNode> {
 
     for token in tokens {
         match token {
+            Token::NoteReference(ref_name) => {
+                if !current_paragraph.is_empty() {
+                    result.push(AstNode::Paragraph(current_paragraph.clone()));
+                    current_paragraph.clear();
+                }
+                result.push(AstNode::NoteReference(ref_name.clone()));
+            }
+            Token::NoteDefinition(ref_name, note_content) => {
+                if !current_paragraph.is_empty() {
+                    result.push(AstNode::Paragraph(current_paragraph.clone()));
+                    current_paragraph.clear();
+                }
+                result.push(AstNode::NoteDefinition(
+                    ref_name.clone(),
+                    note_content.clone(),
+                ));
+            }
             Token::Heading(level, text) => {
                 if !current_paragraph.is_empty() {
                     result.push(AstNode::Paragraph(current_paragraph.clone()));
@@ -87,7 +104,7 @@ This is a **markdown** __parser__.";
         AstNode::Heading(HeadingLevel::H1, "Hello, world!".to_string()),
         AstNode::BlockQuotes("This is a blockquote".to_string()),
         AstNode::Paragraph(vec![
-            AstNode::Text("This is a ".to_string()),
+            AstNode::Text("This is a".to_string()),
             AstNode::Bold("markdown".to_string()),
             AstNode::Italic("parser".to_string()),
         ]),
